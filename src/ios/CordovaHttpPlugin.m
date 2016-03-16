@@ -89,7 +89,7 @@
    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
       NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
       [dictionary setObject:[NSNumber numberWithInt:operation.response.statusCode] forKey:@"status"];
-      [dictionary setObject:[error localizedDescription] forKey:@"error"];
+      [dictionary setObject:[operation responseObject] forKey:@"error"];
       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
       [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
    }];
