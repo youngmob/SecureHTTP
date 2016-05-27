@@ -25,6 +25,12 @@ var http = {
     get: function(url, params, headers, success, failure) {
         return exec(success, failure, "CordovaHttpPlugin", "get", [url, params, headers]);
     },
+    put: function (url, params, headers, success, failure) {
+        return exec(success, failure, "CordovaHttpPlugin", "put", [url, params, headers]);
+    },
+    delete: function (url, params, headers, success, failure) {
+        return exec(success, failure, "CordovaHttpPlugin", "delete", [url, params, headers]);
+    },
     uploadFile: function(url, params, headers, filePath, name, success, failure) {
         return exec(success, failure, "CordovaHttpPlugin", "uploadFile", [url, params, headers, filePath, name]);
     },
