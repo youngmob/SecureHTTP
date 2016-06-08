@@ -198,7 +198,9 @@
     NSString *filePath = [command.arguments objectAtIndex: 3];
     NSString *name = [command.arguments objectAtIndex: 4];
     
-    NSURL *fileURL = [NSURL fileURLWithPath: filePath];
+    NSString *filePathFormatted = [filePath stringByReplacingOccurrencesOfString:@"file:///" withString:@""];
+    
+    NSURL *fileURL = [NSURL fileURLWithPath: filePathFormatted];
     
     [self setRequestHeaders: headers];
     
@@ -218,6 +220,7 @@
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         [dictionary setObject:[NSNumber numberWithInt:operation.response.statusCode] forKey:@"status"];
+		[dictionary setObject:responseObject forKey:@"data"];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
