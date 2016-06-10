@@ -17,8 +17,8 @@ import android.util.Log;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
  
-public class CordovaHttpPost extends CordovaHttp implements Runnable {
-    public CordovaHttpPost(String urlString, Map<?, ?> params, Map<String, String> headers, CallbackContext callbackContext) {
+public class CordovaHttpDelete extends CordovaHttp implements Runnable {
+    public CordovaHttpDelete(String urlString, Map<?, ?> params, Map<String, String> headers, CallbackContext callbackContext) {
         super(urlString, params, headers, callbackContext);
     }
     
