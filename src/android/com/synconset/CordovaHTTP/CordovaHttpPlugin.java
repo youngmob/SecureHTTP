@@ -55,7 +55,7 @@ public class CordovaHttpPlugin extends CordovaPlugin {
             JSONObject params = args.getJSONObject(1);
             JSONObject headers = args.getJSONObject(2);
             HashMap<?, ?> paramsMap = this.getMapFromJSONObject(params);
-            HashMap<String, String> headersMap = this.addToMap(this.globalHeaders, headers);
+            HashMap<String, String> headersMap = this.getStringMapFromJSONObject(headers);
             CordovaHttpGet get = new CordovaHttpGet(urlString, paramsMap, headersMap, callbackContext);
             cordova.getThreadPool().execute(get);
         } else if (action.equals("post")) {
@@ -175,6 +175,17 @@ public class CordovaHttpPlugin extends CordovaPlugin {
         } else {
             CordovaHttp.enableSSLPinning(false);
         }
+    }
+
+    private HashMap<String, String> getStringMapFromJSONObject(JSONObject object) throws JSONException {
+        HashMap<String, String> map = new HashMap<String, String>();
+        Iterator<?> i = object.keys();
+
+        while (i.hasNext()) {
+            String key = (String)i.next();
+            map.put(key, object.getString(key));
+        }
+        return map;
     }
 
     private HashMap<String, String> addToMap(HashMap<String, String> map, JSONObject object) throws JSONException {
