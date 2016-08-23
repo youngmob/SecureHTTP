@@ -113,7 +113,12 @@
    [manager GET:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
       NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
       [dictionary setObject:[NSNumber numberWithInt:operation.response.statusCode] forKey:@"status"];
-      [dictionary setObject:responseObject forKey:@"data"];
+      @try {
+          [dictionary setObject:responseObject forKey:@"data"];
+      }
+      @catch (NSException *exception) {
+          [dictionary setObject:@"cannot parse the response" forKey:@"data"];
+      }
       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
       [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -220,7 +225,7 @@
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         [dictionary setObject:[NSNumber numberWithInt:operation.response.statusCode] forKey:@"status"];
-		[dictionary setObject:responseObject forKey:@"data"];
+        [dictionary setObject:responseObject forKey:@"data"];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -228,10 +233,10 @@
         [dictionary setObject:[NSNumber numberWithInt:operation.response.statusCode] forKey:@"status"];
         @try {
            [dictionary setObject:[operation responseObject] forKey:@"error"];
-		}
-		@catch (NSException *exception) {
+        }
+        @catch (NSException *exception) {
            [dictionary setObject:[error localizedDescription] forKey:@"error"];
-		}
+        }
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -310,10 +315,10 @@
         [dictionary setObject:[NSNumber numberWithInt:operation.response.statusCode] forKey:@"status"];
         @try {
            [dictionary setObject:[operation responseObject] forKey:@"error"];
-		}
-		@catch (NSException *exception) {
+        }
+        @catch (NSException *exception) {
            [dictionary setObject:[error localizedDescription] forKey:@"error"];
-		}
+        }
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
