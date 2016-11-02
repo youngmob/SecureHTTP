@@ -35,7 +35,7 @@ public class CordovaHttpGet extends CordovaHttp implements Runnable {
         try {
             HttpRequest request = HttpRequest.get(this.getUrlString(), this.getParams(), false);
             request = request.connectTimeout(120000); // 2 min
-            this.setupSecurity(request);
+            // this.setupSecurity(request);
             request.acceptCharset(CHARSET);
             request.headers(this.getHeaders());
             int code = request.code();
